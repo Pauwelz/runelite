@@ -140,4 +140,45 @@ public class ObjExporter
 			}
 		}
 	}
+	
+	public int getSimbaHeight()
+	{
+		int height = 0;
+		for (int i = 0; i < model.getVertexY().length; i++) {
+			int current = model.getVertexY()[i] * -1;
+			if (current > height) height = current;
+		}
+		return height;
+	}
+
+	public List<Integer> getSimbaColors(){
+		List<Integer> colors = new ArrayList<>();
+		List<Integer> knownTextures = new ArrayList<>();
+		List<Short> knownHSL = new ArrayList<>();
+		for (int i = 0; i < model.getFaceCount(); ++i)
+		{
+			// determine face color (textured or colored?)
+			int textureId = -1;
+			if (model.getFaceTextures() != null) textureId = model.getFaceTextures()[i];
+
+			int rgbColor;
+			if (textureId != -1)
+			{
+				if (knownTextures.contains(textureId)) continue;
+				TextureDefinition texture = textureManager.findTexture((textureId));
+				rgbColor = JagexColor.adjustForBrightness(texture.getAverageRGB(), JagexColor.BRIGHTNESS_MAX);
+				knownTextures.add(textureId);
+			}
+			else
+			{
+				if (knownHSL.contains(model.faceColors[i])) continue;
+				rgbColor = JagexColor.HSLtoRGB(model.faceColors[i], JagexColor.BRIGHTNESS_MAX);
+				knownHSL.add(model.faceColors[i]);
+			}
+
+			int bgr = JagexColor.RGBtoBGR(rgbColor);
+			if (!colors.contains(bgr)) colors.add(bgr);
+		}
+		return colors;
+	}
 }
