@@ -31,6 +31,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import net.runelite.cache.definitions.NpcDefinition;
 
+import java.io.BufferedReader;
+import java.util.List;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class NpcExporter
 {
 	private final NpcDefinition npc;
