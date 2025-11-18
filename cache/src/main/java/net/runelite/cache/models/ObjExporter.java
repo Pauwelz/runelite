@@ -25,6 +25,8 @@
 package net.runelite.cache.models;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import net.runelite.cache.TextureManager;
 import net.runelite.cache.definitions.ModelDefinition;
 import net.runelite.cache.definitions.TextureDefinition;
