@@ -168,7 +168,7 @@ public class ObjExporter
 			{
 				if (knownTextures.contains(textureId)) continue;
 				TextureDefinition texture = textureManager.findTexture((textureId));
-				rgbColor = JagexColor.adjustForBrightness(texture.getAverageRGB(), JagexColor.BRIGHTNESS_MAX);
+				rgbColor = JagexColor.adjustForBrightness(texture.getmissingColor(), JagexColor.BRIGHTNESS_MAX);
 				knownTextures.add(textureId);
 			}
 			else
