@@ -57,4 +57,41 @@ public class NpcExporter
 			fw.write(export());
 		}
 	}
+	
+	public String simbaExport(int height, List<Integer> colors)
+	{
+		JsonObject obj = new JsonObject();
+		obj.addProperty("name", npc.name);
+		obj.addProperty("level", npc.combatLevel);
+		obj.addProperty("category", npc.category);
+		obj.addProperty("minimapdot", npc.isMinimapVisible);
+		JsonArray actions = new JsonArray();
+		for (int i = 0; i < npc.actions.length; i++) {
+			if (npc.actions[i] != null) actions.add(npc.actions[i]);
+		}
+
+		obj.add("actions", actions);
+
+		JsonArray size = new JsonArray();
+		size.add(npc.size);
+		size.add(npc.size);
+		size.add(height);
+		obj.add("size", size);
+
+		JsonArray jsonColors = new JsonArray();
+		for (Integer color : colors) {
+			jsonColors.add(color);
+		}
+		obj.add("colors", jsonColors);
+
+		return obj.toString();
+	}
+
+	public void simbaExportTo(File file, int height, List<Integer> colors) throws IOException
+	{
+		try (FileWriter fw = new FileWriter(file))
+		{
+			fw.write(simbaExport(height, colors));
+		}
+	}
 }
