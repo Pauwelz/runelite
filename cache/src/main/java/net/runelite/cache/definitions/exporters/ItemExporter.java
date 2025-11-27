@@ -41,7 +41,35 @@ public class ItemExporter
 		this.item = item;
 
 		GsonBuilder builder = new GsonBuilder()
-			.setPrettyPrinting();
+			.setPrettyPrinting()
+			.setExclusionStrategies(new ExclusionStrategy()
+			{
+				@Override
+				public boolean shouldSkipField(FieldAttributes f)
+				{
+					try
+					{
+						// Skip wearPos fields if they have value -1 (uninitialized)
+						String fieldName = f.getName();
+						if (fieldName.equals("wearPos1") || fieldName.equals("wearPos2") || fieldName.equals("wearPos3"))
+						{
+							Object value = f.getDeclaringClass().getField(fieldName).get(item);
+							return value instanceof Integer && (Integer) value == -1;
+						}
+					}
+					catch (Exception e)
+					{
+						// If we can't access the field, don't skip it
+					}
+					return false;
+				}
+
+				@Override
+				public boolean shouldSkipClass(Class<?> clazz)
+				{
+					return false;
+				}
+			});
 		gson = builder.create();
 	}
 
