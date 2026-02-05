@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.commons.cli)
     implementation(libs.jna.core)
+    implementation(org.apache.commons.cli)
 
     testImplementation(libs.junit)
     testImplementation(libs.rs.cache)
